@@ -30,11 +30,10 @@ jobs:
         tar -zxvf cbl.tar.gz -C ~/
 
     - name: Cache
-      uses: klever1988/cachewrtbuild@main
+      uses: actions/cache@v3.0.11
       with:
         ccache: 'true'
-        prefix: ${{ github.workspace }}/Kernel
-
+  
     - name: Build Kernel
       run: |
         ls
