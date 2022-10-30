@@ -21,7 +21,7 @@ jobs:
 
     - name: Initialization environment
       run: |
-        sudo apt update && apt upgrade
+        sudo apt update && sudo apt upgrade
         sudo apt install -y openssl ccache bc bash git-core gnupg build-essential zip curl make automake autogen autoconf autotools-dev libtool shtool python3 python-is-python3 m4 gcc libtool zlib1g-dev flex gcc-aarch64-linux-gnu libssl-dev
         
     - name: Download Clang
