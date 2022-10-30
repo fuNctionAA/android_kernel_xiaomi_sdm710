@@ -1,0 +1,49 @@
+name: Kernel Build
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+      with: 
+        fetch-depth: 0
+
+    - name: Initialization environment
+      run: |
+        sudo apt update && apt upgrade
+        sudo apt install -y openssl ccache bc bash git-core gnupg build-essential zip curl make automake autogen autoconf autotools-dev libtool shtool python3 python-is-python3 m4 gcc libtool zlib1g-dev flex gcc-aarch64-linux-gnu libssl-dev
+        
+    - name: Download Clang
+      run: |
+        wget https://github.com/localhosts-A/Clang/releases/download/aa/cbl.tar.gz
+        tar -zxvf cbl.tar.gz -C ~/
+
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}/Kernel
+
+    - name: Build Kernel
+      run: |
+        ls
+        sh build.sh
+
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+
+    - name: Check space usage
+      if: (!cancelled())
+      run: df -hT
