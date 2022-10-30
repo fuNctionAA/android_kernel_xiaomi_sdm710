@@ -29,9 +29,6 @@ jobs:
         wget https://github.com/localhosts-A/Clang/releases/download/aa/cbl.tar.gz
         tar -zxvf cbl.tar.gz -C ~/
 
-    - name: Cache
-      uses: actions/cache@v3.0.11
-  
     - name: Build Kernel
       run: |
         ls
