@@ -21,13 +21,14 @@ jobs:
 
     - name: Initialization environment
       run: |
-        sudo apt update && sudo apt upgrade
+        sudo apt update
         sudo apt install -y openssl ccache bc bash libdebuginfod-dev git gnupg build-essential zip curl make automake autogen autoconf autotools-dev libtool shtool python3 python-is-python3 m4 gcc libtool zlib1g-dev flex gcc-aarch64-linux-gnu libssl-dev
         
     - name: Download Clang
       run: |
-        wget https://github.com/localhosts-A/Clang/releases/download/aa/cbl.tar.gz
-        tar -zxvf cbl.tar.gz -C ~/
+        mkdir ~/cbl
+        wget https://dl.akr-developers.com/?file=CBL/Candy_clang-20201120.tar.zst
+        tar -I zstd -xvf Candy_clang-20201120.tar.zst -C ~/cbl
 
     - name: Build Kernel
       run: |
