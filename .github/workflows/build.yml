@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       ssh:
-        description: 'SSH connection to Actions'
+        description: 'SSH 连接'
         required: false
         default: 'false'
 
@@ -17,32 +17,28 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Checkout
+    - name: 克隆源码
       uses: actions/checkout@main
       with: 
         fetch-depth: 1
 
-    - name: Initialization environment
+    - name: 初始环境
       run: |
-        sudo apt update
+        sudo apt update && sudo apt upgrade
         sudo apt install -y openssl git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libx11-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler ccache bc bash git gnupg build-essential zip gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi curl make automake autogen autoconf autotools-dev libtool shtool python3 python-is-python3 m4 gcc libtool zlib1g-dev flex gcc-aarch64-linux-gnu libssl-dev
         
 
-    - name: Download Clang
+    - name: 编译工具
       run: |
         mkdir ~/cbl
         wget https://github.com/localhosts-A/Clang/releases/download/fgghb/Candy_clang-20201120.tar.zst
         tar -I zstd -xvf Candy_clang-20201120.tar.zst -C ~/cbl
 
-    - name: Build Kernel
+    - name: 内核编译
       run: |
         ls
         sh build.sh
 
-    - name: SSH connection to Actions
+    - name: SSH 连接
       uses: P3TERX/ssh2actions@v1.0.0
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
