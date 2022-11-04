@@ -19,6 +19,13 @@ jobs:
       with: 
         fetch-depth: 0
 
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}
+
+
     - name: Initialization environment
       run: |
         sudo apt update
