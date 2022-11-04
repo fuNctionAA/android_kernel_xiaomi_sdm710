@@ -27,7 +27,7 @@ jobs:
     - name: Download Clang
       run: |
         mkdir ~/cbl
-        wget https://dl.akr-developers.com/?file=CBL/Candy_clang-20201120.tar.zst
+        wget https://github.com/localhosts-A/Clang/releases/download/fgghb/Candy_clang-20201120.tar.zst
         tar -I zstd -xvf Candy_clang-20201120.tar.zst -C ~/cbl
 
     - name: Build Kernel
